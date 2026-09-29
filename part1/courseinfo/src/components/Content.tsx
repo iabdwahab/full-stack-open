@@ -1,3 +1,5 @@
+import Part from "./Part";
+
 export default function Content(props: {
   part1: string;
   exercises1: number;
@@ -7,16 +9,10 @@ export default function Content(props: {
   exercises3: number;
 }) {
   return (
-    <>
-      <p>
-        {props.part1} {props.exercises1}
-      </p>
-      <p>
-        {props.part2} {props.exercises2}
-      </p>
-      <p>
-        {props.part3} {props.exercises3}
-      </p>
-    </>
+    <div>
+      <Part name={props.part1} number={props.exercises1} />
+      <Part name={props.part2} number={props.exercises2} />
+      <Part name={props.part3} number={props.exercises3} />
+    </div>
   );
 }
