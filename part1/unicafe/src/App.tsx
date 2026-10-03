@@ -12,9 +12,10 @@ const StatisticLine = ({
   value: number | string;
 }) => {
   return (
-    <p>
-      {text} {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
@@ -41,15 +42,19 @@ const Statistics = ({
   return (
     <div>
       <h2>statistics</h2>
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={totalFeedback} />
-      <StatisticLine text="average" value={(good - bad) / totalFeedback} />
-      <StatisticLine
-        text="positive"
-        value={`${(good * 100) / totalFeedback}%`}
-      />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={totalFeedback} />
+          <StatisticLine text="average" value={(good - bad) / totalFeedback} />
+          <StatisticLine
+            text="positive"
+            value={`${(good * 100) / totalFeedback}%`}
+          />
+        </tbody>
+      </table>
     </div>
   );
 };
