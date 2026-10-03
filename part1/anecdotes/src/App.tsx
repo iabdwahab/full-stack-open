@@ -13,10 +13,26 @@ function App() {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+
+      <p>
+        has {votes[selected]} vote{votes[selected] > 1 ? "s" : ""}.
+      </p>
+
+      <button
+        onClick={() => {
+          const newVotes = [...votes];
+          newVotes[selected] += 1;
+          setVotes(newVotes);
+        }}
+      >
+        vote
+      </button>
+
       <button
         onClick={() => {
           const randomIndex = Math.floor(Math.random() * anecdotes.length);
