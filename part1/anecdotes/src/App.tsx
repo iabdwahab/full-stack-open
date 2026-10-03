@@ -15,6 +15,20 @@ function App() {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
+  function getHighestVotedIndex() {
+    let highestVotes = votes[0];
+    let highestIndex = 0;
+
+    for (let i = 1; i < votes.length; i++) {
+      if (votes[i] > highestVotes) {
+        highestVotes = votes[i];
+        highestIndex = i;
+      }
+    }
+
+    return highestIndex;
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
@@ -41,6 +55,15 @@ function App() {
       >
         next anecdote
       </button>
+
+      <div>
+        <h2>Anecdote with most votes</h2>
+        <p>{anecdotes[getHighestVotedIndex()]}</p>
+        <p>
+          has {votes[getHighestVotedIndex()]} vote
+          {votes[getHighestVotedIndex()] > 1 ? "s" : ""}.
+        </p>
+      </div>
     </div>
   );
 }
