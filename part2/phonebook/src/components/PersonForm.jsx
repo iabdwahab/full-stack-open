@@ -22,6 +22,7 @@ export default function PersonForm({ persons, setPersons }) {
         }),
       );
       setNewName("");
+      setPhoneNumber("");
       alert(`${newName} was successfully added!`);
     } else {
       alert(`${newName} is already added to phonebook!`);
