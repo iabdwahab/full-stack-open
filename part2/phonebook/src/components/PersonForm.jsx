@@ -17,7 +17,7 @@ export default function PersonForm({ persons, setPersons }) {
       setPersons(
         persons.concat({
           name: newName,
-          phone_number: phoneNumber,
+          number: phoneNumber,
           id: persons.length + 1,
         }),
       );
