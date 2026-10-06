@@ -3,6 +3,7 @@ const Header = (props) => <h1>{props.course}</h1>;
 const Course = (props) => {
   const { course } = props;
 
+  // Already done
   const totalExercies = course.parts.reduce((acc, curr) => {
     return acc + curr.exercises;
   }, 0);
