@@ -6,9 +6,20 @@ const App = () => {
 
   const handleNewName = (event) => {
     event.preventDefault();
+    if (newName === "") {
+      alert(`Name can't be empty!`);
+      return;
+    }
 
-    setPersons(persons.concat({ name: newName }));
-    setNewName("");
+    const foundedList = persons.filter((person) => person.name === newName);
+
+    if (foundedList.length < 1) {
+      setPersons(persons.concat({ name: newName }));
+      setNewName("");
+      alert(`${newName} was successfully added!`);
+    } else {
+      alert(`${newName} is already added to phonebook!`);
+    }
   };
 
   const handleNameChange = (event) => {
