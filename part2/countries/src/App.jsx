@@ -46,26 +46,12 @@ export default function App() {
             ))}
           </ul>
         ) : filteredCountries.length === 1 ? (
-          <CountryInfo
-            name={filteredCountries[0].name.common}
-            capital={filteredCountries[0].capital?.join(" - ") ?? "Not found!"}
-            area={filteredCountries[0].area}
-            languages={Object.values(filteredCountries[0].languages ?? {})}
-            flags={filteredCountries[0].flags}
-          />
+          <CountryInfo country={filteredCountries[0]} />
         ) : (
           <p>No Countries</p>
         )}
         <div>
-          {showedCountry ? (
-            <CountryInfo
-              name={showedCountry.name.common}
-              capital={showedCountry.capital?.join(" - ") ?? "Not Found!"}
-              area={showedCountry.area}
-              languages={Object.values(showedCountry.languages ?? {})}
-              flags={showedCountry.flags}
-            />
-          ) : null}
+          {showedCountry ? <CountryInfo country={showedCountry} /> : null}
         </div>
       </div>
     </>
