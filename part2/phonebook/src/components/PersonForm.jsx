@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+import serverConnection from "../server/persons";
+
 export default function PersonForm({ persons, setPersons }) {
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -20,11 +22,10 @@ export default function PersonForm({ persons, setPersons }) {
         number: phoneNumber,
       };
 
-      axios
-        .post("http://localhost:3001/persons", newPersonObj)
-        .then((response) => {
-          console.log(response.data);
-          setPersons(persons.concat(response.data));
+      serverConnection
+        .addNewPerson(newPersonObj)
+        .then((data) => {
+          setPersons(persons.concat(data));
           setNewName("");
           setPhoneNumber("");
           alert(`${newName} was successfully added!`);

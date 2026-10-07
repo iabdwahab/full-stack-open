@@ -3,15 +3,15 @@ import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 
-import axios from "axios";
+import serverConnection from "./server/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    serverConnection.getAllPersons().then((personsList) => {
+      setPersons(personsList);
+    });
   }, []);
 
   const [filterName, setFilterName] = useState("");
