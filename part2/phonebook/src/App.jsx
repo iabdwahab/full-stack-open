@@ -33,7 +33,7 @@ const App = () => {
       <PersonForm persons={persons} setPersons={setPersons} />
 
       <h2>Numbers</h2>
-      <Persons personsList={personsToShow} />
+      <Persons personsList={personsToShow} setPersons={setPersons} />
     </div>
   );
 };
