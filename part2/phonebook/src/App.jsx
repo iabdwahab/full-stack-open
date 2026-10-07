@@ -9,6 +9,7 @@ import Notification from "./components/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
 
   useEffect(() => {
     serverConnection.getAllPersons().then((personsList) => {
@@ -26,7 +27,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} type={notificationType} />
 
       <Filter
         value={filterName}
@@ -37,6 +38,7 @@ const App = () => {
         persons={persons}
         setPersons={setPersons}
         setNotificationMessage={setNotificationMessage}
+        setNotificationType={setNotificationType}
       />
       <h2>Numbers</h2>
       <Persons personsList={personsToShow} setPersons={setPersons} />

@@ -6,6 +6,7 @@ export default function PersonForm({
   persons,
   setPersons,
   setNotificationMessage,
+  setNotificationType,
 }) {
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -32,6 +33,7 @@ export default function PersonForm({
           setNewName("");
           setPhoneNumber("");
           setNotificationMessage(`${newName} was successfully added!`);
+          setNotificationType(`succeed`);
           setTimeout(() => {
             setNotificationMessage(``);
           }, 2000);
@@ -67,13 +69,20 @@ export default function PersonForm({
             setNewName("");
             setPhoneNumber("");
             setNotificationMessage(`${newName} was successfully updated!`);
+            setNotificationType(`succeed`);
             setTimeout(() => {
               setNotificationMessage(``);
             }, 2000);
           })
           .catch((error) => {
             console.log(error);
-            alert(`ERROR editing ${foundedPerson.name}`);
+            setNotificationMessage(
+              `Information of ${newName} has already been removed from server`,
+            );
+            setNotificationType(`error`);
+            setTimeout(() => {
+              setNotificationMessage(``);
+            }, 2000);
           });
       }
     }
