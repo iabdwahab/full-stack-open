@@ -2,7 +2,11 @@ import { useState } from "react";
 
 import serverConnection from "../server/persons";
 
-export default function PersonForm({ persons, setPersons }) {
+export default function PersonForm({
+  persons,
+  setPersons,
+  setNotificationMessage,
+}) {
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -27,7 +31,10 @@ export default function PersonForm({ persons, setPersons }) {
           setPersons(persons.concat(data));
           setNewName("");
           setPhoneNumber("");
-          alert(`${newName} was successfully added!`);
+          setNotificationMessage(`${newName} was successfully added!`);
+          setTimeout(() => {
+            setNotificationMessage(``);
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
@@ -59,6 +66,10 @@ export default function PersonForm({ persons, setPersons }) {
 
             setNewName("");
             setPhoneNumber("");
+            setNotificationMessage(`${newName} was successfully updated!`);
+            setTimeout(() => {
+              setNotificationMessage(``);
+            }, 2000);
           })
           .catch((error) => {
             console.log(error);
