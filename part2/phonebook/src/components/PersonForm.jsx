@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function PersonForm({ persons, setPersons }) {
   const [newName, setNewName] = useState("");
@@ -14,16 +15,24 @@ export default function PersonForm({ persons, setPersons }) {
     const foundedList = persons.filter((person) => person.name === newName);
 
     if (foundedList.length < 1) {
-      setPersons(
-        persons.concat({
-          name: newName,
-          number: phoneNumber,
-          id: persons.length + 1,
-        }),
-      );
-      setNewName("");
-      setPhoneNumber("");
-      alert(`${newName} was successfully added!`);
+      const newPersonObj = {
+        name: newName,
+        number: phoneNumber,
+      };
+
+      axios
+        .post("http://localhost:3001/persons", newPersonObj)
+        .then((response) => {
+          console.log(response.data);
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setPhoneNumber("");
+          alert(`${newName} was successfully added!`);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Error in adding!");
+        });
     } else {
       alert(`${newName} is already added to phonebook!`);
     }
