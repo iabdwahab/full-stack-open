@@ -2,13 +2,17 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 import axios from "axios";
+import CountryInfo from "./components/CountryInfo";
 
 export default function App() {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
+  const [showedCountry, setShowedCountry] = useState(null);
+
   const handleChangeValue = (event) => {
     setSearchValue(event.target.value);
+    setShowedCountry(null);
   };
 
   useEffect(() => {
@@ -35,31 +39,34 @@ export default function App() {
         ) : filteredCountries.length > 1 ? (
           <ul>
             {filteredCountries.map((country) => (
-              <li key={country.cca3}>{country.name.common}</li>
+              <li key={country.cca3}>
+                {country.name.common}{" "}
+                <button onClick={() => setShowedCountry(country)}>Show</button>
+              </li>
             ))}
           </ul>
         ) : filteredCountries.length === 1 ? (
-          <div>
-            <h1>{filteredCountries[0].name.common}</h1>
-            <p>Capital {filteredCountries[0].capital.join(" - ")}</p>
-            <p>Area {filteredCountries[0].area}</p>
-
-            <h2>Languages</h2>
-            <ul>
-              {Object.values(filteredCountries[0].languages).map((lang) => (
-                <li key={lang}>{lang}</li>
-              ))}
-            </ul>
-
-            <img
-              src={filteredCountries[0].flags.svg}
-              alt={filteredCountries[0].flags.alt}
-              width={200}
-            />
-          </div>
+          <CountryInfo
+            name={filteredCountries[0].name.common}
+            capital={filteredCountries[0].capital?.join(" - ") ?? "Not found!"}
+            area={filteredCountries[0].area}
+            languages={Object.values(filteredCountries[0].languages ?? {})}
+            flags={filteredCountries[0].flags}
+          />
         ) : (
           <p>No Countries</p>
         )}
+        <div>
+          {showedCountry ? (
+            <CountryInfo
+              name={showedCountry.name.common}
+              capital={showedCountry.capital?.join(" - ") ?? "Not Found!"}
+              area={showedCountry.area}
+              languages={Object.values(showedCountry.languages ?? {})}
+              flags={showedCountry.flags}
+            />
+          ) : null}
+        </div>
       </div>
     </>
   );
