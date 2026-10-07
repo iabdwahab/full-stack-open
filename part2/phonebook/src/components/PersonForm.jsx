@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 
 import serverConnection from "../server/persons";
 
@@ -35,7 +34,37 @@ export default function PersonForm({ persons, setPersons }) {
           alert("Error in adding!");
         });
     } else {
-      alert(`${newName} is already added to phonebook!`);
+      const foundedPerson = foundedList[0];
+
+      const isUpdatingConfirmed = confirm(
+        `${foundedPerson.name} is already added to phonebook, replace the old number with a new one?`,
+      );
+
+      if (isUpdatingConfirmed) {
+        serverConnection
+          .updatePerson(foundedPerson.id, {
+            ...foundedPerson,
+            number: phoneNumber,
+          })
+          .then((updatedPerson) => {
+            setPersons(
+              persons.map((person) => {
+                if (person.id === foundedPerson.id) {
+                  return updatedPerson;
+                } else {
+                  return person;
+                }
+              }),
+            );
+
+            setNewName("");
+            setPhoneNumber("");
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(`ERROR editing ${foundedPerson.name}`);
+          });
+      }
     }
   };
 
