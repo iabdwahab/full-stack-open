@@ -1,6 +1,7 @@
-const http = require("http");
+const express = require("express");
+const app = express();
 
-const data = [
+const persons = [
   {
     id: "1",
     name: "Arto Hellas",
@@ -23,29 +24,18 @@ const data = [
   },
 ];
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/info") {
-    res.writeHead(200, {
-      "Content-Type": "text/html",
-    });
+app.get("/api/persons", (req, res) => {
+  res.json(persons);
+});
 
-    const nowDate = new Date();
-
-    const responseData = `
-      <p>Phonebook has info for ${data.length} people</p>
-      <p>${nowDate}</p>
-    `;
-
-    return res.end(responseData);
-  }
-
-  res.writeHead(200, {
-    "Content-Type": "application/json",
-  });
-  res.end(JSON.stringify(data));
+app.get("/info", (req, res) => {
+  res.send(`
+      <p>Phonebook has info for ${persons.length} people</p>
+      <p>${new Date()}</p>
+    `);
 });
 
 const PORT = 3001;
-server.listen(PORT, () => {
-  console.log(`listnening on PORT: ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`listening on PORT: ${PORT}`);
 });
