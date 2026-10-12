@@ -53,7 +53,7 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-  const personData = req.body;
+  const personData = req.body ?? {};
 
   if (!personData.name) {
     return res.status(400).json({
