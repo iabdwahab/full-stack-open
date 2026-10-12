@@ -55,6 +55,26 @@ app.delete("/api/persons/:id", (req, res) => {
 app.post("/api/persons", (req, res) => {
   const personData = req.body;
 
+  if (!personData.name) {
+    return res.status(400).json({
+      error: "name is required.",
+    });
+  }
+
+  if (!personData.number) {
+    return res.status(400).json({
+      error: "number is required.",
+    });
+  }
+
+  const existingPerson = persons.find(
+    (person) => person.name.toLowerCase() === personData.name.toLowerCase(),
+  );
+
+  if (existingPerson) {
+    return res.status(409).json({ error: "name must be unique" });
+  }
+
   const newPerson = {
     id: Math.floor(Math.random() * 9999999).toString(),
     name: personData.name,
