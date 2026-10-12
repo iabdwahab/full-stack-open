@@ -24,6 +24,21 @@ const data = [
 ];
 
 const server = http.createServer((req, res) => {
+  if (req.url === "/info") {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+
+    const nowDate = new Date();
+
+    const responseData = `
+      <p>Phonebook has info for ${data.length} people</p>
+      <p>${nowDate}</p>
+    `;
+
+    return res.end(responseData);
+  }
+
   res.writeHead(200, {
     "Content-Type": "application/json",
   });
