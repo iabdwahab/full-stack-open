@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
+const path = require("path");
+
 app.use(cors());
 app.use(express.json());
 
@@ -39,6 +41,12 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
+
+// I inserted it to solve a problem of serving FRONTEND CODE on Vercel.
+// As when entering /index.html it showed, but when entering / it didn't show the frontend code.
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
