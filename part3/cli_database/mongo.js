@@ -16,6 +16,12 @@ if (process.argv.length === 4) {
   process.exit(1);
 }
 
+// When user add data more:
+if (process.argv.length > 5) {
+  console.log(`Too many arguments!`);
+  process.exit(1);
+}
+
 const password = process.argv[2];
 const url = `mongodb+srv://fullstack:${password}@cluster0.comfbgv.mongodb.net/phonebook`;
 
@@ -34,6 +40,21 @@ if (process.argv.length === 3) {
     result.forEach((person) => {
       console.log(`${person.name} ${person.number}`);
     });
+    mongoose.connection.close();
+  });
+} else if (process.argv.length === 5) {
+  const name = process.argv[3];
+  const number = process.argv[4];
+
+  const person = new Person({
+    name,
+    number,
+  });
+
+  person.save().then((result) => {
+    console.log(
+      `added ${result.name} number ${result.number} to ${mongoose.connection.name}`,
+    );
     mongoose.connection.close();
   });
 }
