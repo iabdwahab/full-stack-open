@@ -103,23 +103,28 @@ app.post("/api/persons", (req, res) => {
     });
   }
 
-  const existingPerson = persons.find(
-    (person) => person.name.toLowerCase() === personData.name.toLowerCase(),
-  );
+  // const existingPerson = persons.find(
+  //   (person) => person.name.toLowerCase() === personData.name.toLowerCase(),
+  // );
 
-  if (existingPerson) {
-    return res.status(409).json({ error: "name must be unique" });
-  }
+  // if (existingPerson) {
+  //   return res.status(409).json({ error: "name must be unique" });
+  // }
 
-  const newPerson = {
-    id: Math.floor(Math.random() * 9999999).toString(),
+  const newPerson = new Person({
     name: personData.name,
     number: personData.number,
-  };
+  });
 
-  persons = persons.concat(newPerson);
-
-  res.status(201).json(newPerson);
+  newPerson
+    .save()
+    .then((savedPerson) => {
+      res.status(201).json(savedPerson);
+    })
+    .catch((error) => {
+      console.log("error adding person:", error.message);
+      res.status(500).json({ error: "failed to save person" });
+    });
 });
 
 app.get("/info", (req, res) => {
