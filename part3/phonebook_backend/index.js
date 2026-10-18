@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const path = require("path");
 
+const Person = require("./modules/persons");
+
 app.use(cors());
 app.use(express.json());
 
@@ -49,21 +51,33 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  Person.find({})
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      console.log(`error fetching persons:`, error.message);
+      res.status(500).json({
+        error: "Error finding persons",
+      });
+    });
 });
 
 app.get("/api/persons/:id", (req, res) => {
   const { id } = req.params;
 
-  const person = persons.find((person) => person.id === id);
+  // const person = persons.find((person) => person.id === id);
 
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).json({
-      error: "person NOT FOUND!",
+  Person.findById(id)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      console.log(`error getting person's data:`, error.message);
+      res.status(404).json({
+        error: "person NOT FOUND!",
+      });
     });
-  }
 });
 
 app.delete("/api/persons/:id", (req, res) => {
